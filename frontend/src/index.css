@@ -4,40 +4,41 @@
 
 @layer base {
   body {
-    @apply bg-gray-50;
+    @apply bg-gray-50 text-gray-900 font-sans antialiased;
   }
 }
 
 @layer components {
   .btn {
-    @apply px-4 py-2 rounded-md font-medium transition-colors duration-200;
+    @apply px-4 py-2 rounded-full font-medium transition-all duration-200 shadow-sm;
   }
 
   .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-700;
+    @apply bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-md hover:from-indigo-700 hover:to-purple-700;
   }
 
   .btn-google {
-    @apply bg-red-600 text-white hover:bg-red-700;
+    @apply bg-red-600 text-white hover:bg-red-700 hover:shadow-md;
   }
 
   .btn-github {
-    @apply bg-gray-800 text-white hover:bg-gray-900;
+    @apply bg-gray-800 text-white hover:bg-black hover:shadow-md;
   }
 
   .btn-linkedin {
-    @apply bg-blue-700 text-white hover:bg-blue-800;
+    @apply bg-blue-700 text-white hover:bg-blue-800 hover:shadow-md;
   }
 
   .btn-twitter {
-    @apply bg-sky-500 text-white hover:bg-sky-600;
+    @apply bg-sky-500 text-white hover:bg-sky-600 hover:shadow-md;
   }
 
   .btn-facebook {
-    @apply bg-blue-600 text-white hover:bg-blue-700;
+    @apply bg-blue-600 text-white hover:bg-blue-700 hover:shadow-md;
   }
 
   .container {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 }
+
