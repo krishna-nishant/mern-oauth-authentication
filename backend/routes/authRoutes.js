@@ -14,6 +14,33 @@ router.get('/google/callback',
   })
 );
 
+// GitHub auth routes
+router.get('/github',
+  passport.authenticate('github')
+);
+
+router.get('/github/callback', (req, res, next) => {
+  passport.authenticate('github', (err, user, info) => {
+    if (err) {
+      console.error('GitHub authentication error:', err);
+      return res.redirect(`${process.env.CLIENT_URL}?authError=github`);
+    }
+    
+    if (!user) {
+      console.error('GitHub authentication failed:', info);
+      return res.redirect(`${process.env.CLIENT_URL}?authError=github`);
+    }
+    
+    req.login(user, (loginErr) => {
+      if (loginErr) {
+        console.error('GitHub login error:', loginErr);
+        return res.redirect(`${process.env.CLIENT_URL}?authError=github`);
+      }
+      return res.redirect(process.env.CLIENT_URL);
+    });
+  })(req, res, next);
+});
+
 // Get current user route
 router.get('/current_user', (req, res) => {
   if (req.user) {

@@ -25,18 +25,25 @@ export function UserProfile({ user }) {
             <span className="font-medium">Email:</span> {user.email}
           </p>
           <p className="text-gray-600">
-            <span className="font-medium">Authentication Provider:</span> {user.provider || 'Google'}
+            <span className="font-medium">Authentication Provider:</span>{" "}
+            {user.provider || "Google"}
           </p>
           {user.googleId && (
             <p className="text-gray-600">
               <span className="font-medium">Google ID:</span> {user.googleId}
             </p>
           )}
+          {user.githubId && (
+            <p className="text-gray-600">
+              <span className="font-medium">GitHub ID:</span> {user.githubId}
+            </p>
+          )}
           <p className="text-gray-600">
-            <span className="font-medium">User Since:</span> {new Date(user.createdAt).toLocaleDateString()}
+            <span className="font-medium">User Since:</span>{" "}
+            {new Date(user.createdAt).toLocaleDateString()}
           </p>
         </div>
       </div>
     </div>
   );
-} 
+}
