@@ -38,6 +38,11 @@ export function UserProfile({ user }) {
               <span className="font-medium">GitHub ID:</span> {user.githubId}
             </p>
           )}
+          {user.linkedinId && (
+            <p className="text-gray-600">
+              <span className="font-medium">LinkedIn ID:</span> {user.linkedinId}
+            </p>
+          )}
           <p className="text-gray-600">
             <span className="font-medium">User Since:</span>{" "}
             {new Date(user.createdAt).toLocaleDateString()}

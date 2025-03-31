@@ -41,6 +41,33 @@ router.get('/github/callback', (req, res, next) => {
   })(req, res, next);
 });
 
+// LinkedIn auth routes
+router.get('/linkedin', 
+  passport.authenticate('linkedin')
+);
+
+router.get('/linkedin/callback', (req, res, next) => {
+  passport.authenticate('linkedin', (err, user, info) => {
+    if (err) {
+      console.error('LinkedIn authentication error:', err);
+      return res.redirect(`${process.env.CLIENT_URL}?authError=linkedin`);
+    }
+    
+    if (!user) {
+      console.error('LinkedIn authentication failed:', info);
+      return res.redirect(`${process.env.CLIENT_URL}?authError=linkedin`);
+    }
+    
+    req.login(user, (loginErr) => {
+      if (loginErr) {
+        console.error('LinkedIn login error:', loginErr);
+        return res.redirect(`${process.env.CLIENT_URL}?authError=linkedin`);
+      }
+      return res.redirect(process.env.CLIENT_URL);
+    });
+  })(req, res, next);
+});
+
 // Get current user route
 router.get('/current_user', (req, res) => {
   if (req.user) {

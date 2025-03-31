@@ -1,6 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const GitHubStrategy = require('passport-github2').Strategy;
+const LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 const User = require('../models/User');
 const dotenv = require('dotenv');
 
@@ -21,20 +22,21 @@ passport.deserializeUser(async (id, done) => {
 });
 
 // Set up Google OAuth Strategy
-passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: '/auth/google/callback'
-},
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+    passport.use(new GoogleStrategy({
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: '/auth/google/callback'
+    },
     async (accessToken, refreshToken, profile, done) => {
         try {
             // Check if user already exists in database
             let user = await User.findOne({ googleId: profile.id });
-
+            
             if (user) {
                 return done(null, user);
             }
-
+            
             // If not, create a new user
             user = new User({
                 googleId: profile.id,
@@ -43,15 +45,18 @@ passport.use(new GoogleStrategy({
                 picture: profile.photos[0].value,
                 provider: 'google'
             });
-
+            
             await user.save();
             return done(null, user);
         } catch (error) {
             return done(error, null);
         }
     }
-));
-
+    ));
+} else {
+    console.warn('Google OAuth credentials not found in environment variables.');
+    console.warn('Google authentication will not be available.');
+}
 
 // Set up GitHub OAuth Strategy
 if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
@@ -108,6 +113,62 @@ if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
 } else {
     console.warn('GitHub OAuth credentials not found in environment variables.');
     console.warn('GitHub authentication will not be available.');
+}
+
+// Set up LinkedIn OAuth Strategy
+if (process.env.LINKEDIN_CLIENT_ID && process.env.LINKEDIN_CLIENT_SECRET) {
+    passport.use(new LinkedInStrategy({
+        clientID: process.env.LINKEDIN_CLIENT_ID,
+        clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
+        callbackURL: '/auth/linkedin/callback',
+        scope: ['openid', 'profile', 'email'],
+        state: true
+    },
+        async (accessToken, refreshToken, profile, done) => {
+            try {
+                console.log("LinkedIn profile received:", profile.displayName);
+                
+                // Check if user already exists in database
+                let user = await User.findOne({ linkedinId: profile.id });
+                
+                if (user) {
+                    return done(null, user);
+                }
+                
+                // Get email from profile
+                let email = null;
+                if (profile.emails && profile.emails.length > 0) {
+                    email = profile.emails[0].value;
+                } else {
+                    // Use a placeholder if email not available
+                    email = `linkedin-user-${profile.id}@example.com`;
+                }
+                
+                // Get profile photo if available
+                const pictureUrl = profile.photos && profile.photos.length > 0 
+                    ? profile.photos[0].value 
+                    : null;
+                
+                // Create a new user
+                user = new User({
+                    linkedinId: profile.id,
+                    displayName: profile.displayName || 'LinkedIn User',
+                    email: email,
+                    picture: pictureUrl,
+                    provider: 'linkedin'
+                });
+                
+                await user.save();
+                return done(null, user);
+            } catch (error) {
+                console.error('LinkedIn auth error:', error);
+                return done(error, null);
+            }
+        }
+    ));
+} else {
+    console.warn('LinkedIn OAuth credentials not found in environment variables.');
+    console.warn('LinkedIn authentication will not be available.');
 }
 
 module.exports = passport; 

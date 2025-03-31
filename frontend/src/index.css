@@ -25,6 +25,10 @@
     @apply bg-gray-800 text-white hover:bg-gray-900;
   }
 
+  .btn-linkedin {
+    @apply bg-blue-700 text-white hover:bg-blue-800;
+  }
+
   .container {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
