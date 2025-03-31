@@ -29,6 +29,14 @@
     @apply bg-blue-700 text-white hover:bg-blue-800;
   }
 
+  .btn-twitter {
+    @apply bg-sky-500 text-white hover:bg-sky-600;
+  }
+
+  .btn-facebook {
+    @apply bg-blue-600 text-white hover:bg-blue-700;
+  }
+
   .container {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }

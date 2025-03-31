@@ -43,6 +43,16 @@ export function UserProfile({ user }) {
               <span className="font-medium">LinkedIn ID:</span> {user.linkedinId}
             </p>
           )}
+          {user.twitterId && (
+            <p className="text-gray-600">
+              <span className="font-medium">Twitter ID:</span> {user.twitterId}
+            </p>
+          )}
+          {user.facebookId && (
+            <p className="text-gray-600">
+              <span className="font-medium">Facebook ID:</span> {user.facebookId}
+            </p>
+          )}
           <p className="text-gray-600">
             <span className="font-medium">User Since:</span>{" "}
             {new Date(user.createdAt).toLocaleDateString()}
