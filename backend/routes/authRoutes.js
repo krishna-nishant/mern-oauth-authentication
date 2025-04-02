@@ -72,12 +72,16 @@ router.get('/current_user', (req, res) => {
 });
 
 // Logout route
-router.get('/logout', (req, res) => {
-    req.logout(function (err) {
+router.all('/logout', (req, res) => {
+    // Destroy the session completely
+    req.session.destroy((err) => {
         if (err) {
             return res.status(500).json({ error: 'Failed to logout' });
         }
-        res.redirect(process.env.CLIENT_URL);
+        // Clear the cookie
+        res.clearCookie('connect.sid');
+        // Always return JSON response and let client handle redirection
+        res.json({ success: true, message: 'Logged out successfully' });
     });
 });
 

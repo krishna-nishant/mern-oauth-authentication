@@ -1,6 +1,7 @@
 "use client"
 
 import { useAuth } from "./hooks/useAuth.jsx"
+import { ThemeProvider } from "./hooks/useTheme.jsx"
 import { Navbar } from "./components/Navbar"
 import { HomePage } from "./pages/HomePage"
 import { LoadingSpinner } from "./components/LoadingSpinner"
@@ -14,12 +15,14 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50">
-      <Navbar />
-      <main className="py-8">
-        <HomePage />
-      </main>
-    </div>
+    <ThemeProvider>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50 dark:from-gray-900 dark:to-indigo-950 transition-colors duration-300">
+        <Navbar />
+        <main className="py-8">
+          <HomePage />
+        </main>
+      </div>
+    </ThemeProvider>
   )
 }
 

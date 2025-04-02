@@ -21,7 +21,9 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors({
     origin: process.env.CLIENT_URL || 'http://localhost:5173',
-    credentials: true
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Set up session management
@@ -30,7 +32,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        maxAge: 3 * 60 * 60 * 1000, // 3 hours instead of 24
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax'
     }
 }));
 

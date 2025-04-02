@@ -16,16 +16,16 @@ export function HomePage() {
             <div className="inline-flex items-center justify-center h-20 w-20 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-3xl mb-4">
               🔐
             </div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-3">Welcome to Auth Demo</h2>
-            <p className="text-gray-600 mb-8 text-lg">Securely authenticate with your preferred social accounts</p>
+            <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-3">Welcome to Auth Demo</h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-8 text-lg">Securely authenticate with your preferred social accounts</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <button
               onClick={() => login("google")}
-              className="flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-xl shadow-sm border border-gray-200 transition-all duration-200 group"
+              className="flex items-center justify-center gap-3 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200 group"
             >
-              <div className="flex items-center justify-center h-10 w-10 rounded-full bg-red-100 text-red-600 group-hover:scale-110 transition-transform duration-200">
+              <div className="flex items-center justify-center h-10 w-10 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 group-hover:scale-110 transition-transform duration-200">
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path
                     fill="currentColor"
@@ -50,9 +50,9 @@ export function HomePage() {
 
             <button
               onClick={() => login("github")}
-              className="flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-xl shadow-sm border border-gray-200 transition-all duration-200 group"
+              className="flex items-center justify-center gap-3 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200 group"
             >
-              <div className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-900 text-white group-hover:scale-110 transition-transform duration-200">
+              <div className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-900 dark:bg-gray-700 text-white group-hover:scale-110 transition-transform duration-200">
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path
                     fill="currentColor"
@@ -65,9 +65,9 @@ export function HomePage() {
 
             <button
               onClick={() => login("twitter")}
-              className="flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-xl shadow-sm border border-gray-200 transition-all duration-200 group"
+              className="flex items-center justify-center gap-3 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200 group"
             >
-              <div className="flex items-center justify-center h-10 w-10 rounded-full bg-sky-100 text-sky-500 group-hover:scale-110 transition-transform duration-200">
+              <div className="flex items-center justify-center h-10 w-10 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-500 dark:text-sky-400 group-hover:scale-110 transition-transform duration-200">
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path
                     fill="currentColor"
@@ -80,9 +80,9 @@ export function HomePage() {
 
             <button
               onClick={() => login("facebook")}
-              className="flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-xl shadow-sm border border-gray-200 transition-all duration-200 group"
+              className="flex items-center justify-center gap-3 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200 group"
             >
-              <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-100 text-blue-600 group-hover:scale-110 transition-transform duration-200">
+              <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-200">
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path
                     fill="currentColor"
@@ -95,9 +95,9 @@ export function HomePage() {
 
             <button
               onClick={() => login("linkedin")}
-              className="flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-xl shadow-sm border border-gray-200 transition-all duration-200 group"
+              className="flex items-center justify-center gap-3 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200 group"
             >
-              <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-100 text-blue-700 group-hover:scale-110 transition-transform duration-200">
+              <div className="flex items-center justify-center h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 group-hover:scale-110 transition-transform duration-200">
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path
                     fill="currentColor"
@@ -107,6 +107,9 @@ export function HomePage() {
               </div>
               <span className="font-medium">Login with LinkedIn</span>
             </button>
+            <div className="col-span-1 sm:col-span-2 lg:col-span-3 mt-2">
+              <p className="text-amber-600 dark:text-amber-500 text-sm font-medium">⚠️ LinkedIn login may not work properly due to API limitations</p>
+            </div>
           </div>
         </div>
       )}

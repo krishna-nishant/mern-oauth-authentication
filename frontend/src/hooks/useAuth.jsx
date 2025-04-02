@@ -41,18 +41,25 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     try {
       // Call the logout endpoint
-      await fetch(`${API_URL}/auth/logout`, {
-        method: "POST",
+      const response = await fetch(`${API_URL}/auth/logout`, {
+        method: "GET",
         credentials: "include",
       });
-
-      // Clear local storage and state
+      
+      // Clear user state
       setUser(null);
-
-      // Redirect to home page
-      window.location.href = "/";
+      
+      // Clear any localStorage auth data if exists
+      localStorage.removeItem('authUser');
+      sessionStorage.removeItem('authUser');
+      
+      // Only reload the current page instead of redirecting
+      window.location.reload();
     } catch (err) {
       console.error("Error during logout:", err);
+      // Even if the server request fails, clear local state
+      setUser(null);
+      window.location.reload();
     }
   };
 
