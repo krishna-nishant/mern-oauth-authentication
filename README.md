@@ -1,12 +1,13 @@
 # Multi-Provider Authentication System
 
-Simple authentication system supporting multiple OAuth providers including Google, GitHub, LinkedIn, Twitter, and Facebook.
+Simple authentication system supporting multiple OAuth providers including Google, GitHub, LinkedIn, Twitter, Facebook, and Spotify.
 
 ## Features
 - Multi-provider OAuth authentication
 - User profile management
 - Admin dashboard
 - Responsive design
+- View Spotify liked songs (when logged in via Spotify)
 
 ## Tech Stack
 - **Backend**: Node.js, Express, Passport.js, MongoDB
@@ -37,7 +38,5 @@ Quick guides for setting up each provider:
 - [LinkedIn OAuth Setup](docs/linkedin.md)
 - [Twitter OAuth Setup](docs/twitter.md)
 - [Facebook OAuth Setup](docs/facebook.md)
+- [Spotify OAuth Setup](docs/spotify.md)
 
-
-## License
-MIT 
