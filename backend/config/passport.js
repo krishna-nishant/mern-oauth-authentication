@@ -4,6 +4,7 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 const TwitterStrategy = require('passport-twitter').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
+const SpotifyStrategy = require('passport-spotify').Strategy;
 const User = require('../models/User');
 const dotenv = require('dotenv');
 
@@ -238,50 +239,116 @@ if (process.env.FACEBOOK_APP_ID && process.env.FACEBOOK_APP_SECRET) {
         callbackURL: '/auth/facebook/callback',
         profileFields: ['id', 'displayName', 'photos', 'email']
     },
-    async (accessToken, refreshToken, profile, done) => {
-        try {
-            console.log("Facebook profile received:", profile.displayName);
-            
-            // Check if user already exists in database
-            let user = await User.findOne({ facebookId: profile.id });
-            
-            if (user) {
+        async (accessToken, refreshToken, profile, done) => {
+            try {
+                console.log("Facebook profile received:", profile.displayName);
+
+                // Check if user already exists in database
+                let user = await User.findOne({ facebookId: profile.id });
+
+                if (user) {
+                    return done(null, user);
+                }
+
+                // Get email from profile
+                let email = null;
+                if (profile.emails && profile.emails.length > 0) {
+                    email = profile.emails[0].value;
+                } else {
+                    // Use a placeholder if email not accessible
+                    email = `facebook-user-${profile.id}@example.com`;
+                }
+
+                // Get profile photo if available
+                const pictureUrl = profile.photos && profile.photos.length > 0
+                    ? profile.photos[0].value
+                    : null;
+
+                // Create a new user
+                user = new User({
+                    facebookId: profile.id,
+                    displayName: profile.displayName || 'Facebook User',
+                    email: email,
+                    picture: pictureUrl,
+                    provider: 'facebook'
+                });
+
+                await user.save();
                 return done(null, user);
+            } catch (error) {
+                console.error('Facebook auth error:', error);
+                return done(error, null);
             }
-            
-            // Get email from profile
-            let email = null;
-            if (profile.emails && profile.emails.length > 0) {
-                email = profile.emails[0].value;
-            } else {
-                // Use a placeholder if email not accessible
-                email = `facebook-user-${profile.id}@example.com`;
-            }
-            
-            // Get profile photo if available
-            const pictureUrl = profile.photos && profile.photos.length > 0 
-                ? profile.photos[0].value
-                : null;
-            
-            // Create a new user
-            user = new User({
-                facebookId: profile.id,
-                displayName: profile.displayName || 'Facebook User',
-                email: email,
-                picture: pictureUrl,
-                provider: 'facebook'
-            });
-            
-            await user.save();
-            return done(null, user);
-        } catch (error) {
-            console.error('Facebook auth error:', error);
-            return done(error, null);
-        }
-    }));
+        }));
 } else {
     console.warn('Facebook OAuth credentials not found in environment variables.');
     console.warn('Facebook authentication will not be available.');
+}
+
+// Set up Spotify OAuth Strategy
+if (process.env.SPOTIFY_CLIENT_ID && process.env.SPOTIFY_CLIENT_SECRET) {
+    passport.use(new SpotifyStrategy({
+        clientID: process.env.SPOTIFY_CLIENT_ID,
+        clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+        callbackURL: '/auth/spotify/callback',
+        scope: ['user-read-email', 'user-read-private', 'user-library-read']
+    },
+        async (accessToken, refreshToken, expires_in, profile, done) => {
+            try {
+                console.log("Spotify profile received:", profile.displayName);
+
+                // Calculate token expiration time
+                const expiresAt = new Date();
+                expiresAt.setSeconds(expiresAt.getSeconds() + expires_in);
+
+                // Check if user already exists in database
+                let user = await User.findOne({ spotifyId: profile.id });
+
+                if (user) {
+                    // Update the tokens
+                    user.spotifyAccessToken = accessToken;
+                    user.spotifyRefreshToken = refreshToken;
+                    user.spotifyTokenExpires = expiresAt;
+                    await user.save();
+                    return done(null, user);
+                }
+
+                // Get email from profile
+                let email = null;
+                if (profile.emails && profile.emails.length > 0) {
+                    email = profile.emails[0].value;
+                } else {
+                    // Use a placeholder if email not available
+                    email = `spotify-user-${profile.id}@example.com`;
+                }
+
+                // Get profile photo if available
+                const pictureUrl = profile.photos && profile.photos.length > 0
+                    ? profile.photos[0].value
+                    : null;
+
+                // Create a new user
+                user = new User({
+                    spotifyId: profile.id,
+                    displayName: profile.displayName || 'Spotify User',
+                    email: email,
+                    picture: pictureUrl,
+                    provider: 'spotify',
+                    spotifyAccessToken: accessToken,
+                    spotifyRefreshToken: refreshToken,
+                    spotifyTokenExpires: expiresAt
+                });
+
+                await user.save();
+                return done(null, user);
+            } catch (error) {
+                console.error('Spotify auth error:', error);
+                return done(error, null);
+            }
+        }));
+} else {
+    console.warn('Spotify OAuth credentials not found in environment variables.');
+    console.warn('Spotify authentication will not be available.');
 }
 
 module.exports = passport; 

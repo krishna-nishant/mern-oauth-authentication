@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useAuth } from "../hooks/useAuth.jsx"
-import { UserProfile } from "../components/UserProfile.jsx"
+import { useAuth } from "../hooks/useAuth.jsx";
+import { UserProfile } from "../components/UserProfile.jsx";
 
 export function HomePage() {
-  const { login, user, isAuthenticated } = useAuth()
+  const { login, user, isAuthenticated } = useAuth();
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
@@ -16,8 +16,12 @@ export function HomePage() {
             <div className="inline-flex items-center justify-center h-20 w-20 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-3xl mb-4">
               🔐
             </div>
-            <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-3">Welcome to Auth Demo</h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-8 text-lg">Securely authenticate with your preferred social accounts</p>
+            <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-3">
+              Welcome to Auth Demo
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-8 text-lg">
+              Securely authenticate with your preferred social accounts
+            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -107,13 +111,33 @@ export function HomePage() {
               </div>
               <span className="font-medium">Login with LinkedIn</span>
             </button>
+
+            <button
+              onClick={() => login("spotify")}
+              className="flex items-center justify-center gap-3 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 p-4 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200 group"
+            >
+              <div className="flex items-center justify-center h-10 w-10 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-200">
+                <svg className="w-5 h-5" viewBox="0 0 24 24">
+                  <path
+                    fill="currentColor"
+                    d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"
+                  />
+                </svg>
+              </div>
+              <span className="font-medium">Login with Spotify</span>
+            </button>
             <div className="col-span-1 sm:col-span-2 lg:col-span-3 mt-2">
-              <p className="text-amber-600 dark:text-amber-500 text-sm font-medium">⚠️ LinkedIn login may not work properly due to API limitations</p>
+              <p className="text-amber-600 dark:text-amber-500 text-sm font-medium">
+                ⚠️ LinkedIn login may not work properly due to API limitations
+              </p>
+              <p className="text-green-600 dark:text-green-500 text-sm font-medium mt-2">
+                💡 Tip: You can view your liked songs by logging in via Spotify.
+                Have fun!
+              </p>
             </div>
           </div>
         </div>
       )}
     </div>
-  )
+  );
 }
-

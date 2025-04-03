@@ -62,6 +62,18 @@ router.get('/facebook/callback',
     })
 );
 
+// Spotify auth routes
+router.get('/spotify',
+    passport.authenticate('spotify')
+);
+
+router.get('/spotify/callback',
+    passport.authenticate('spotify', {
+        failureRedirect: '/login-failed',
+        successRedirect: process.env.CLIENT_URL
+    })
+);
+
 // Get current user route
 router.get('/current_user', (req, res) => {
     if (req.user) {

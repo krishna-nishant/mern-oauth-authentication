@@ -6,6 +6,7 @@ const session = require('express-session');
 const connectDB = require('./config/database');
 const passport = require('./config/passport');
 const authRoutes = require('./routes/authRoutes');
+const spotifyRoutes = require('./routes/spotifyRoutes');
 
 // Load environment variables
 dotenv.config();
@@ -46,6 +47,7 @@ app.use(passport.session());
 // Routes
 app.use('/auth', authRoutes);
 app.use('/api', authRoutes);
+app.use('/api/spotify', spotifyRoutes);
 
 // Health check route
 app.get('/', (req, res) => {
